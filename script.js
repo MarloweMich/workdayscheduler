@@ -3,55 +3,69 @@ var dayof = moment().format("MMM Do, YYYY");
 var bodyEl = $("#body");
 
 clock.textContent = dayof;
-var currentTime = moment().format("MMM Do, YYYY");
+var currentDay = moment().format("MMM Do, YYYY");
 var currentHour = moment().hour();
-console.log("currenttime is: " + currentTime);
+console.log("currentday is: " + currentDay);
 console.log("currenthour is: " + currentHour);
 
-var weekDay = moment("5-15-2022", "M-D-YYYY").format(" MMM Do, YYYY");
-console.log("random weekday: " + weekDay);
+//timeblocks section begins
+var changers = [
+  $('textarea[id="9"]'),
+  $('textarea[id="10"]'),
+  $('textarea[id="11"]'),
+  $('textarea[id="12"]'),
+  $('textarea[id="13"]'),
+  $('textarea[id="14"]'),
+  $('textarea[id="15"]'),
+  $('textarea[id="16"]'),
+  $('textarea[id="17"]'),
+];
 
+changers.forEach(element => {
+ parseInt(element.attr('id'));
+ console.log(element.attr('id'));
+});
 
-
-function colorChange(){
-const timeblocks = [9,10,11,12,13,14,15,16,17];
-const searchterm = currentHour;
-const i = timeblocks.indexOf(searchterm);
-
-   if (moment(timeblocks[i]).isBefore(currentHour)){
-       $('textarea').addClass('past');
+     function colorChange(){
+      for (i = 0; i <changers.length; i++) {
+        console.log("i= " + i);
+        console.log("currenthour: " + currentHour);
+         console.log(changers[i]);
+    if (changers[i].attr('id') < currentHour) {
+     changers[i].addClass("past");
    }
-     if (timeblocks[i]==currentHour){
-          $("textarea").addClass('present');
-     }
-   if (moment(timeblocks[i]).isAfter(currentHour)){
-    $('textarea').addClass('future');
-}
-}
+   if (changers[i].attr('id') == currentHour) {
+     changers[i].addClass("present");
+   }
+   if (changers[i].attr('id') > currentHour) {
+     changers[i].addClass("future");
+   }
+     }}
+     colorChange();
 
-colorChange();
+//begin area of local storage and submission buttons
+     renderLastRegistered();
 
+var renderLastRegistered = function() {
+  var input = localStorage.getItem("input");
+  $("textarea").textContent = input;
+};
+var button = $(".saveBtn");
+button.on("click", function (event) {
+  event.preventDefault();
 
-// const paragraph = 'The quick brown fox jumps over the lazy dog. If the dog barked, was it really lazy?';
+  var input = [
+    $('textarea[name="9"]').val(),
+    $('textarea[name="10"]').val(),
+    $('textarea[name="11"]').val(),
+    $('textarea[name="12"]').val(),
+    $('textarea[name="13"]').val(),
+    $('textarea[name="14"]').val(),
+    $('textarea[name="15"]').val(),
+    $('textarea[name="16"]').val(),
+    $('textarea[name="17"]').val(),
+  ];
 
-// const searchTerm = 'dog';
-// const indexOfFirst = paragraph.indexOf(searchTerm);
-
-// console.log(`The index of the first "${searchTerm}" from the beginning is ${indexOfFirst}`);
-// // expected output: "The index of the first "dog" from the beginning is 40"
-
-// console.log(`The index of the 2nd "${searchTerm}" is ${paragraph.indexOf(searchTerm, (indexOfFirst + 1))}`);
-// // expected output: "The index of the 2nd "dog" is 52"
-
-
-
-// const numbers = [45, 4, 9, 16, 25];
-// let txt = "";
-// numbers.forEach(myFunction);
-
-// function myFunction(value) {
-//   txt += value + "<br>";
-// }
-
-//var nine = moment("9 am").format("HH a");
-//$("#9").text(nine);
+  localStorage.setItem("input", input);
+  renderLastRegistered();
+});
