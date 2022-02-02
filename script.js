@@ -44,28 +44,36 @@ changers.forEach(element => {
      colorChange();
 
 //begin area of local storage and submission buttons
-     renderLastRegistered();
+ function renderLastRegistered() {
+   var items = JSON.parse(localStorage.getItem("input"));
+   for (i = 0; i<changers.length; i++){
+     changers[i].val(items[i])
+   }
+   console.log(items);
+ };
 
-var renderLastRegistered = function() {
-  var input = localStorage.getItem("input");
-  $("textarea").textContent = input;
-};
+function savelocal(){
+  var input = [
+    $('textarea[id="9"]').val(),
+    $('textarea[id="10"]').val(),
+    $('textarea[id="11"]').val(),
+    $('textarea[id="12"]').val(),
+    $('textarea[id="13"]').val(),
+    $('textarea[id="14"]').val(),
+    $('textarea[id="15"]').val(),
+    $('textarea[id="16"]').val(),
+    $('textarea[id="17"]').val(),
+  ];
+localStorage.setItem("input", JSON.stringify(input));
+}
+
 var button = $(".saveBtn");
 button.on("click", function (event) {
   event.preventDefault();
-
-  var input = [
-    $('textarea[name="9"]').val(),
-    $('textarea[name="10"]').val(),
-    $('textarea[name="11"]').val(),
-    $('textarea[name="12"]').val(),
-    $('textarea[name="13"]').val(),
-    $('textarea[name="14"]').val(),
-    $('textarea[name="15"]').val(),
-    $('textarea[name="16"]').val(),
-    $('textarea[name="17"]').val(),
-  ];
-
-  localStorage.setItem("input", input);
-  renderLastRegistered();
+  savelocal();
 });
+
+function init(){
+  renderLastRegistered();
+ }
+ init();
